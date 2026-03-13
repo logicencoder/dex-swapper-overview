@@ -47,11 +47,11 @@ I built a lightweight web application with:
 ### 1) Trading workflow optimized for speed
 
 - **Sell DNX → USDC** card
-  - Preset buttons for common sizes (1K, 3K, 4K, 5K, 6K, 7K, 8K, 9K, 10K, 12K, 14K, 15K, 17K, 20K, 23K, 25K)
+  - Preset buttons for common sizes (1K, 3K, 4K, 5K, 6K, 7K, 8K, 9K, 10K, 12K, 14K, 15K, 17K, 20K, 23K, 25K) - 16 buttons
   - "Config Gas" vs "Custom Gas" modes with identical preset amounts
   - Custom amount input with real-time cost estimation
 - **Buy DNX ← USDC** card
-  - Preset buttons for common sizes (50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000)
+  - Preset buttons for common sizes (50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000) - 15 buttons
   - **ALL** button to buy using full USDC balance (rounded down to avoid dust/precision failures)
   - Custom amount input with gas estimation
 
