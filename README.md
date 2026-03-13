@@ -120,9 +120,6 @@ I can build similar systems for other ERC-20 tokens or pairs by:
 
 > **Note:** This is an experimental system requiring significant further development
 
-- **Automated tests for gas range selection and tx-building invariants**
-- **Better configuration UX (in-app config editor + validation)**
-- **Additional MEV execution options (private tx routing strategies)**
 - Complete implementation of experimental features
 - Enhanced error handling and recovery mechanisms
 - Production-ready deployment and monitoring
