@@ -47,28 +47,30 @@ I built a lightweight web application with:
 ### 1) Trading workflow optimized for speed
 
 - **Sell DNX → USDC** card
-  - Preset buttons for common sizes
-  - "Config Gas" vs "Custom Gas" modes
+  - Preset buttons for common sizes (1K, 3K, 4K, 5K, 6K, 7K, 8K, 9K, 10K, 12K, 14K, 15K, 17K, 20K, 23K, 25K)
+  - "Config Gas" vs "Custom Gas" modes with identical preset amounts
+  - Custom amount input with real-time cost estimation
 - **Buy DNX ← USDC** card
-  - Preset buttons for common sizes
-  - **ALL** button to buy using the full USDC balance (rounded down to avoid dust/precision failures)
+  - Preset buttons for common sizes (50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000)
+  - **ALL** button to buy using full USDC balance (rounded down to avoid dust/precision failures)
+  - Custom amount input with gas estimation
 
 ### 2) Config-driven gas strategy (range-based)
 
 The app uses a JSON config to select gas parameters based on trade size.
 
-- **Priority fee (gwei)** chosen by amount range
+- **Priority fee (gwei)** chosen by amount range from `dnx_swap_gas_config.json`
 - **Base fee multiplier** chosen by amount range
-- A **default gas limit** used as a baseline
-
-This avoids "one-size-fits-all" gas settings and makes behavior predictable.
+- **Fixed gas limits**: DNX sell (310k), USDC buy (280k), USDC send (65k), ETH send (21k)
+- **Config vs Custom modes**: Config uses preset gas parameters, Custom allows user override
 
 ### 3) Real-time visibility
 
-- Live wallet balances (ETH / DNX / USDC)
+- **Live wallet balances** (ETH / DNX / USDC) with 6-second cache updates
 - **Real-time price display** from both exchange feeds (MEXC WebSocket) and on-chain pool calculations
-- Block number + base fee tracking
-- Log window for actions + system events
+- **Block tracking**: Current block number and base fee from WebSocket (no RPC calls)
+- **Log window**: Real-time event streaming via WebSocket to browser
+- **Cost estimation**: Live USD cost calculation for trades and gas
 
 ### 4) Safety & operations tooling (separate section)
 
@@ -76,16 +78,43 @@ This avoids "one-size-fits-all" gas settings and makes behavior predictable.
 
 This is intentionally separated in the UI from trading buttons:
 
-- **Cancel current swap** (experimental implementation)
-- **Cancel all pending transactions** (experimental implementation)
-- **Nonce inspection tool** (diagnostics for nonce sync / pending txs) - experimental
-- **Stuck transaction detector** (identify pending/stuck states and show details) - experimental
+- **Cancel current swap**: Self-to-self transaction with 1.5x gas multiplier
+- **Cancel all pending transactions**: Batch cancel for multiple stuck transactions
+- **Nonce inspection tool**: Diagnostics for nonce sync / pending transactions
+- **Stuck transaction detector**: Scans 2000 blocks for unconfirmed transactions
+- **Transaction status monitoring**: Real-time receipt checking and status updates
 
 ### 5) MEV-aware operations
 
-- Persistent connections and keepalive to selected builders/relays
-- Periodic summary logs (interval configurable)
-- Goal: improve reliability of the execution pipeline under real conditions
+- **Dual builder support**: BeaverBuild and Titan with persistent HTTP keep-alive connections
+- **Bundle blasting**: Parallel submission to 6 bundle slots (3 builders × 2 future blocks)
+- **Keepalive monitoring**: 45-second ping intervals with connection health tracking
+- **Auto-reblast**: Automatic resubmission if transaction disappears from mempool
+- **Performance tracking**: Builder response time monitoring and statistics
+- **Configurable intervals**: Summary logs every 30 minutes (configurable)
+
+### 6) Fund transfer utilities
+
+- **USDC transfers**: Send USDC to predefined exchanges (MEXC, Gate.io) or custom addresses
+- **ETH transfers**: Send ETH to predefined exchanges or custom addresses with 21k gas limit
+- **Exchange integration**: Quick selection buttons for common withdrawal destinations
+- **Custom recipient support**: Manual address input for any destination
+
+### 7) Advanced monitoring & protection
+
+- **Attacker detection**: Real-time block scanning for specific addresses with auto-cancel
+- **WebSocket streaming**: Live price feeds from MEXC with protobuf parsing
+- **Balance caching**: RAM-based balance storage to minimize RPC calls
+- **Base fee optimization**: WebSocket-based base fee caching eliminates get_block() calls
+- **Connection pooling**: Persistent HTTP sessions for MEV builders
+
+### 8) Configuration system
+
+- **JSON-based configuration**: Separate files for gas ranges and UI presets
+- **Hot-reload capable**: Configuration changes without restart (planned)
+- **Environment-based**: Secure .env file for private keys and addresses
+- **Multi-exchange support**: Configurable exchange addresses and withdrawal destinations
+- **Monitoring intervals**: Configurable update frequencies for all background tasks
 
 ---
 
