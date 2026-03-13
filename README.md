@@ -1,8 +1,8 @@
-# DNX Swap WebApp — Technical Overview (Experimental)
+# DNX Swap WebApp — Technical Overview
 
 A fast, operator-focused trading web application I built after running into a real execution problem: swapping via typical DEX UIs (e.g., Uniswap-style flows) was too slow and "laggy" for active trading. I needed a dedicated interface that makes the critical state visible at a glance, minimizes click/typing overhead, and includes operational tools for real on-chain conditions (nonce desync, stuck txs, gas volatility, and MEV considerations).
 
-> Status: **experimental / semi-working / needs further development**. The goal of this repository is to showcase the product concept and engineering approach. Many components are experimental and not fully implemented. The full source code is kept private.
+> Status: **Working application with experimental transaction utilities**. The core trading functionality is operational, but some advanced transaction tools are experimental and require further development. The full source code is kept private.
 
 ---
 
@@ -34,8 +34,6 @@ I built a lightweight web application with:
 - Operational tooling (cancel, nonce inspection, stuck-tx checks)
 - MEV-aware builder connectivity monitoring (keepalive + summary logs)
 
-> **Note:** Many features are experimental and require further development to be fully functional.
-
 ---
 
 ## UI snapshot
@@ -48,8 +46,6 @@ I built a lightweight web application with:
 
 ### 1) Trading workflow optimized for speed
 
-> **Status:** Experimental implementation, needs further development
-
 - **Sell DNX → USDC** card
   - Preset buttons for common sizes
   - "Config Gas" vs "Custom Gas" modes
@@ -58,8 +54,6 @@ I built a lightweight web application with:
   - **ALL** button to buy using the full USDC balance (rounded down to avoid dust/precision failures)
 
 ### 2) Config-driven gas strategy (range-based)
-
-> **Status:** Implemented but experimental, needs testing
 
 The app uses a JSON config to select gas parameters based on trade size.
 
@@ -71,8 +65,6 @@ This avoids "one-size-fits-all" gas settings and makes behavior predictable.
 
 ### 3) Real-time visibility
 
-> **Status:** Partially implemented, experimental
-
 - Live wallet balances (ETH / DNX / USDC)
 - **Real-time price display** from both exchange feeds (MEXC WebSocket) and on-chain pool calculations
 - Block number + base fee tracking
@@ -80,7 +72,7 @@ This avoids "one-size-fits-all" gas settings and makes behavior predictable.
 
 ### 4) Safety & operations tooling (separate section)
 
-> **Status:** Experimental, not fully functional
+> **Status:** These transaction utilities are experimental and require further development
 
 This is intentionally separated in the UI from trading buttons:
 
@@ -91,8 +83,6 @@ This is intentionally separated in the UI from trading buttons:
 
 ### 5) MEV-aware operations
 
-> **Status:** Experimental concept, needs refinement
-
 - Persistent connections and keepalive to selected builders/relays
 - Periodic summary logs (interval configurable)
 - Goal: improve reliability of the execution pipeline under real conditions
@@ -100,8 +90,6 @@ This is intentionally separated in the UI from trading buttons:
 ---
 
 ## How I would adapt this to other tokens / pairs
-
-> **Status:** Conceptual design, not fully implemented
 
 This system is designed to be reusable across different applications.
 
@@ -118,9 +106,9 @@ I can build similar systems for other ERC-20 tokens or pairs by:
 
 ## What needs improvement (development priorities)
 
-> **Note:** This is an experimental system requiring significant further development
+> **Note:** Focus on completing experimental transaction utilities
 
-- Complete implementation of experimental features
+- Complete implementation of experimental transaction utilities
 - Enhanced error handling and recovery mechanisms
 - Production-ready deployment and monitoring
 
@@ -149,9 +137,9 @@ If you're working on something challenging and think my skills could complement 
 
 ## Notes for reviewers
 
-- This is an **experimental trading tool** built from a practical need.
+- This is a **working trading tool** built from a practical need.
 - The focus is on **speed, clarity, and operational reliability**.
-- **Many features are experimental and not fully functional** - this is a work in progress.
+- **Transaction utilities (cancel, nonce inspection, stuck tx detection) are experimental** and require further development.
 - Full source is private; I can share code or a sanitized demo version on request for those interested in cooperation.
 
 ---
