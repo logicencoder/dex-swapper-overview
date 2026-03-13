@@ -110,8 +110,35 @@ I can build similar apps for other ERC-20 tokens or pairs by:
 
 ---
 
+## Collaboration Opportunities
+
+I'm open to collaboration on interesting projects that align with my expertise. If you see potential synergies between your project and my work, I'd be interested in discussing potential cooperation.
+
+**Contact & Portfolio:**
+- **Website:** [logicencoder.com](https://logicencoder.com/)
+- **Applications Gallery:** [logicencoder.com/applications/](https://logicencoder.com/applications/)
+- **GitHub:** [github.com/logicencoder](https://github.com/logicencoder)
+
+**Areas of Interest:**
+- High-performance backend systems
+- Real-time data processing
+- API design and architecture
+- Database optimization
+- Cloud infrastructure
+- Automation tools
+
+If you're working on something challenging and think my skills could complement your project, feel free to reach out through my website or GitHub.
+
+---
+
 ## Notes for reviewers
 
 - This is a **real trading tool** built from a practical need.
 - The focus is on **speed, clarity, and operational reliability**.
-- Full source is private; I can share code or a sanitized demo version on request.
+- Full source is private; I can share code or a sanitized demo version on request for those interested in cooperation.
+
+---
+
+## Source Code
+
+Full source code available in private repository. Contact for collaboration opportunities.
