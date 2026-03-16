@@ -18,7 +18,7 @@ The **DNX Swap Bot** is a premium, proprietary standalone desktop application en
 
 ### Speed-Optimized Trading Interface
 - **Single-page trading UI** with critical state visibility at a glance
-- **Preset trading buttons** for common sizes (1K-25K DNX sells, 50-1000 DNX buys)
+- **Preset trading buttons** for common sizes plus custom amount input
 - **Live wallet balances** with 6-second cache updates
 - **Real-time price display** from MEXC WebSocket feeds and on-chain calculations
 
@@ -27,6 +27,8 @@ The **DNX Swap Bot** is a premium, proprietary standalone desktop application en
 - **MEV-aware execution** with dual builder support (BeaverBuild, Titan)
 - **Bundle blasting** across 6 slots for maximum inclusion probability
 - **Advanced monitoring** with attacker detection and automatic protection
+
+> **Note:** Advanced transaction utilities are currently in development and will be prioritized based on interest and availability.
 
 ### Enterprise-Grade Features
 - **Config-driven gas system** with amount-range optimization
@@ -39,7 +41,6 @@ The **DNX Swap Bot** is a premium, proprietary standalone desktop application en
 This software is a **professional-grade tool** and is not available for public distribution or open-source download.
 
 I am open to discussions regarding:
-* **Commercial Licensing:** Acquire a license for the standalone engine for professional use.
 * **Strategic Partnerships:** Cooperation for institutional-grade projects or infrastructure integration.
 * **Custom Development:** Tailor-made automation solutions for specific high-stakes requirements.
 
@@ -51,17 +52,11 @@ I am open to discussions regarding:
 - **Market making** and **DNX** liquidity management
 - **Risk management** with automated safety tools for **Dynex** operations
 
-### Institutional Operations
-- **Portfolio management** for **DNX** holdings
-- **Automated rebalancing** strategies for **Dynex** assets
-- **Compliance-ready** audit trails and logging for **DNX** transactions
-- **Multi-user deployment** capabilities for **Dynex** trading teams
-
 ### Ecosystem Integration
 - **Exchange connectivity** for seamless **DNX** fund transfers
 - **MEV protection** and builder optimization for **Dynex** transactions
 - **Network monitoring** and **Dynex** performance analytics
-- **Custom API integration** for existing **Dynex** systems
+- **API integration** for existing systems
 
 ## 📥 Inquiries & Contact
 
@@ -76,7 +71,7 @@ If you understand the value of a high-speed **DNX** swap engine and wish to disc
 ## 🏆 Why Choose DNX Swap Bot?
 
 ### Performance Advantage
-- **Sub-second execution** for critical swap operations
+- **Fast execution** for critical swap operations
 - **Optimized gas usage** with intelligent fee calculation
 - **Real-time market data** integration for informed decisions
 - **Minimal latency** architecture design
@@ -91,7 +86,6 @@ If you understand the value of a high-speed **DNX** swap engine and wish to disc
 - **Direct developer access** for customization and support
 - **Regular updates** and performance optimizations
 - **Integration assistance** for existing workflows
-- **Training and documentation** for team deployment
 
 ---
 
