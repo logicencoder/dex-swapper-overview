@@ -36,6 +36,14 @@ I built a lightweight web application for **Dynex (DNX)** trading with:
 
 ---
 
+## Tech Stack Used
+
+- **Backend**: Python + FastAPI, async orchestration, on-chain swap execution logic
+- **Frontend**: HTML/CSS/JavaScript operator interface (standalone dashboard)
+- **Realtime transport**: WebSocket + REST for live state, logs, and operational controls
+- **Blockchain integration**: Ethereum RPC/WebSocket, pool metadata, nonce/tx lifecycle handling
+- **Deployment style**: standalone runtime with dedicated processing backend
+
 ## UI snapshot
 
 ![DNX Trading UI](assets/ui.png)
