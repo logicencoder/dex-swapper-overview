@@ -4,6 +4,13 @@ A fast, operator-focused trading web application I built after running into a re
 
 > Status: **Working application with experimental transaction utilities**. The core trading functionality is operational, but some advanced transaction tools are experimental and require further development. The full source code is kept private. This is a professional **DNX** and **Dynex** trading solution.
 
+## Positioning
+
+- Current delivery mode: **standalone operator runtime**
+- Live website mode: **not the primary target for this app**
+
+Even though the UI is browser-based, this product is operated as a dedicated standalone trading runtime with controlled backend processing.
+
 ---
 
 ## The problem I had to solve
