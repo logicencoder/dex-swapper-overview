@@ -1,200 +1,193 @@
-# DNX Swap WebApp — Technical Overview | **Dynex** Ecosystem Trading Solution
+# DNX Swap WebApp — public overview
 
-A fast, operator-focused trading web application I built after running into a real execution problem: swapping via typical DEX UIs (e.g., Uniswap-style flows) was too slow and "laggy" for active trading. I needed a dedicated interface that makes the critical state visible at a glance, minimizes click/typing overhead, and includes operational tools for real on-chain conditions (nonce desync, stuck txs, gas volatility, and MEV considerations) in the **Dynex** ecosystem.
+Operator-focused trading web application for **Dynex (DNX)** on Ethereum: fast DNX⇄USDC swaps, live balances and prices, config-driven gas, and recovery tooling when the chain misbehaves.
 
-> Status: **Working application with experimental transaction utilities**. The core trading functionality is operational, but some advanced transaction tools are experimental and require further development. The full source code is kept private. This is a professional **DNX** and **Dynex** trading solution.
-
-## Positioning
-
-- Current delivery mode: **standalone operator runtime**
-- Live website mode: **not the primary target for this app**
-
-Even though the UI is browser-based, this product is operated as a dedicated standalone trading runtime with controlled backend processing.
-
----
-
-## The problem I had to solve
-
-When executing swaps manually, seconds matter in the **Dynex** ecosystem:
-
-- Standard DEX UIs often require multiple screens and confirmations.
-- Gas and base fee changes can quickly invalidate assumptions.
-- Stuck transactions and nonce mismatches are common in active usage.
-- MEV threats and private relay/builder operational reliability matter.
-
-I wanted a single page that:
-
-- **Shows everything important** (balances, prices, block/base fee) while trading.
-- **Executes common actions immediately** via preset buttons.
-- Provides **safety and recovery tooling** when something goes wrong.
-
----
-
-## Solution overview
-
-I built a lightweight web application for **Dynex (DNX)** trading with:
-
-- A **FastAPI** backend serving a single-page UI + JSON APIs for **DNX** trading
-- An async **Web3 execution layer** for **DNX** swaps and transfers
-- A **config-driven gas system** (range-based priority fee + base fee multiplier) optimized for **Dynex**
-- **Real-time price calculations** from both exchange feeds (MEXC) and on-chain pool data for **DNX**
-- Operational tooling (cancel, nonce inspection, stuck-tx checks) for **DNX** transactions
-- MEV-aware builder connectivity monitoring (keepalive + summary logs) for **Dynex** network
-
----
-
-## Tech Stack Used
-
-- **Backend**: Python + FastAPI, async orchestration, on-chain swap execution logic
-- **Frontend**: HTML/CSS/JavaScript operator interface (standalone dashboard)
-- **Realtime transport**: WebSocket + REST for live state, logs, and operational controls
-- **Blockchain integration**: Ethereum RPC/WebSocket, pool metadata, nonce/tx lifecycle handling
-- **Deployment style**: standalone runtime with dedicated processing backend
-
-## UI snapshot
+**Implementation (private):** [dnx-swap-webapp](https://github.com/logicencoder/dnx-swap-webapp)
 
 ![DNX Trading UI](assets/ui.png)
 
 ---
 
-## Key features (detailed)
+## The problem
 
-### 1) Trading workflow optimized for speed
+When executing swaps manually in the **Dynex** ecosystem, seconds matter:
 
-- **Sell DNX → USDC** card
-  - Preset buttons for common sizes (1K, 3K, 4K, 5K, 6K, 7K, 8K, 9K, 10K, 12K, 14K, 15K, 17K, 20K, 23K, 25K) - 16 buttons
-  - "Config Gas" vs "Custom Gas" modes with identical preset amounts
-  - Custom amount input with real-time cost estimation
-- **Buy DNX ← USDC** card
-  - Preset buttons for common sizes (50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000) - 15 buttons
-  - **ALL** button to buy using full USDC balance (rounded down to avoid dust/precision failures)
-  - Custom amount input with gas estimation
+- Standard DEX UIs often need multiple screens and confirmations before a trade lands.
+- Base fee and priority fee move while you are still typing an amount.
+- Nonce desync and stuck pending transactions are common under active use.
+- MEV and private builder reliability affect whether a swap confirms at the price you assumed.
 
-### 2) Config-driven gas strategy (range-based)
-
-The app uses a JSON config to select gas parameters based on trade size.
-
-- **Priority fee (gwei)** chosen by amount range from `dnx_swap_gas_config.json`
-- **Base fee multiplier** chosen by amount range
-- **Fixed gas limits**: DNX sell (310k), USDC buy (280k), USDC send (65k), ETH send (21k)
-- **Config vs Custom modes**: Config uses preset gas parameters, Custom allows user override
-
-### 3) Real-time visibility
-
-- **Live wallet balances** (ETH / DNX / USDC) with 6-second cache updates
-- **Real-time price display** from both exchange feeds (MEXC WebSocket) and on-chain pool calculations
-- **Block tracking**: Current block number and base fee from WebSocket (no RPC calls)
-- **Log window**: Real-time event streaming via WebSocket to browser
-- **Cost estimation**: Live USD cost calculation for trades and gas
-
-### 4) Safety & operations tooling (separate section)
-
-> **Status:** These transaction utilities are experimental and require further development
-
-This is intentionally separated in the UI from trading buttons:
-
-- **Cancel current swap**: Self-to-self transaction with 1.5x gas multiplier
-- **Cancel all pending transactions**: Batch cancel for multiple stuck transactions
-- **Nonce inspection tool**: Diagnostics for nonce sync / pending transactions
-- **Stuck transaction detector**: Scans 2000 blocks for unconfirmed transactions
-- **Transaction status monitoring**: Real-time receipt checking and status updates
-
-### 5) MEV-aware operations
-
-- **Dual builder support**: BeaverBuild and Titan with persistent HTTP keep-alive connections
-- **Bundle blasting**: Parallel submission to 6 bundle slots (3 builders × 2 future blocks)
-- **Keepalive monitoring**: 45-second ping intervals with connection health tracking
-- **Auto-reblast**: Automatic resubmission if transaction disappears from mempool
-- **Performance tracking**: Builder response time monitoring and statistics
-- **Configurable intervals**: Summary logs every 30 minutes (configurable)
-
-### 6) Fund transfer utilities
-
-- **USDC transfers**: Send USDC to predefined exchanges (MEXC, Gate.io) or custom addresses
-- **ETH transfers**: Send ETH to predefined exchanges or custom addresses with 21k gas limit
-- **Exchange integration**: Quick selection buttons for common withdrawal destinations
-- **Custom recipient support**: Manual address input for any destination
-
-### 7) Advanced monitoring & protection
-
-- **Attacker detection**: Real-time block scanning for specific addresses with auto-cancel
-- **WebSocket streaming**: Live price feeds from MEXC with protobuf parsing
-- **Balance caching**: RAM-based balance storage to minimize RPC calls
-- **Base fee optimization**: WebSocket-based base fee caching eliminates get_block() calls
-- **Connection pooling**: Persistent HTTP sessions for MEV builders
-
-### 8) Configuration system
-
-- **JSON-based configuration**: Separate files for gas ranges and UI presets
-- **Hot-reload capable**: Configuration changes without restart (planned)
-- **Environment-based**: Secure .env file for private keys and addresses
-- **Multi-exchange support**: Configurable exchange addresses and withdrawal destinations
-- **Monitoring intervals**: Configurable update frequencies for all background tasks
+I built a **single-page operator runtime** that keeps critical state visible, runs common sizes from presets, and separates “trade now” from “fix the chain” utilities.
 
 ---
 
-## How I would adapt this to other tokens / pairs
+## Who benefits
 
-This system is designed to be reusable across different applications.
-
-I can build similar systems for other ERC-20 tokens or pairs by:
-
-- Updating token addresses/decimals and pair routing
-- Adjusting preset buttons per token liquidity/typical sizing
-- Adding/rewriting gas range tables for different volatility regimes
-- Extending safety checks (slippage policies, profit checks, circuit breakers)
-- Adding additional on-chain actions (approvals, multi-hop routes, bridging hooks)
-- **Adapting real-time price feeds** for different exchanges and pools
+| Audience | Benefit |
+|----------|---------|
+| **Operator / trader** | One screen for balances, prices, block/base fee, presets, and logs while swapping DNX |
+| **Reviewer / collaborator** | Clear scope of what is production-ready vs experimental without seeing private keys |
+| **Developer adapting the pattern** | Reusable shape: FastAPI + async Web3 + config gas + WebSocket log stream |
 
 ---
 
-## What needs improvement (development priorities)
+## How this fits the stack
 
-> **Note:** Focus on completing experimental transaction utilities
+| Piece | Role |
+|-------|------|
+| **dnx-swap-webapp** (private) | Full Python/FastAPI source, `.env`, gas JSON, UI config |
+| **dnx-swap-webapp-overview** (this repo) | Public product description, screenshot, collaboration contact |
+| **MEXC / on-chain feeds** | Price inputs (exchange WebSocket + pool math) — not a separate public repo |
 
-- Complete implementation of experimental transaction utilities
-- Enhanced error handling and recovery mechanisms
-- Production-ready deployment and monitoring
-
----
-
-## Collaboration Opportunities
-
-I'm open to collaboration on interesting projects that align with my expertise. If you see potential synergies between your project and my work, I'd be interested in discussing potential cooperation.
-
-**Contact & Portfolio:**
-- **Website:** [logicencoder.com](https://logicencoder.com/)
-- **Applications Gallery:** [logicencoder.com/applications/](https://logicencoder.com/applications/)
-- **GitHub:** [github.com/logicencoder](https://github.com/logicencoder)
-
-**Areas of Interest:**
-- High-performance backend systems
-- Real-time data processing
-- API design and architecture
-- Database optimization
-- Cloud infrastructure
-- Automation tools
-- **Dynex ecosystem development**
-- **DNX trading solutions**
-
-If you're working on something challenging and think my skills could complement your project, feel free to reach out through my website or GitHub.
+This is **not** a public website product. It runs as a **standalone operator runtime** (browser UI + local/controlled backend). Live marketing pages for LogicEncoder use other repos (gas tracker, MEXC stats, shop plugins).
 
 ---
 
-## Notes for reviewers
+## Delivery mode
 
-- This is a **working trading tool** built from a practical need.
-- The focus is on **speed, clarity, and operational reliability**.
-- **Transaction utilities (cancel, nonce inspection, stuck tx detection) are experimental** and require further development.
-- Full source is private; I can share code or a sanitized demo version on request for those interested in cooperation.
-- This is a professional **DNX** and **Dynex** ecosystem solution.
+- **Primary:** dedicated standalone runtime on operator hardware (SOL production path: `dnx_swap_webapp` / `dnx_swap_webapp_optimized.py`)
+- **Not primary:** multi-tenant SaaS or anonymous web signup
 
 ---
 
-## Source Code
+## Capabilities (detailed)
 
-Full source code available in private repository. Contact for collaboration opportunities.
+### Preset-driven sell / buy workflow
+
+**What:** Two cards — **Sell DNX → USDC** and **Buy DNX ← USDC** — with preset amount buttons (16 sell sizes, 15 buy sizes), optional custom amount, and an **ALL** buy using full USDC balance (rounded down to avoid dust failures).
+
+**Why:** Active trading needs one-click sizes you repeat daily; typing amounts on every swap adds delay and errors.
+
+**Who benefits:** Operator executing repeated DNX size ladders during volatile sessions.
+
+### Config vs custom gas modes
+
+**What:** Each card supports **Config Gas** (reads `dnx_swap_gas_config.json` ranges) or **Custom Gas** (operator override). Same presets work in both modes.
+
+**Why:** Small trades and large trades need different priority fee / base-fee multiplier profiles; overrides are still needed when the JSON table is behind the market.
+
+**Who benefits:** Operator balancing confirmation speed vs fee spend per trade size.
+
+### Range-based gas engine
+
+**What:** JSON maps trade amount → priority fee (gwei) and base fee multiplier. Fixed gas limits: DNX sell 310k, USDC buy 280k, USDC send 65k, ETH send 21k.
+
+**Why:** Ethereum base fee spikes; a single static gas setting either overpays on small swaps or underpays on large ones.
+
+**Who benefits:** Operator; fewer stuck swaps from underpriced gas on large notionals.
+
+### Live balances, prices, and block context
+
+**What:** Wallet balances (ETH / DNX / USDC) refresh on a short cache interval; prices from **MEXC WebSocket** (protobuf decode) plus on-chain pool math; current block and base fee from a **newHeads** WebSocket (no per-tick `get_block` RPC).
+
+**Why:** You should see cost in USD and chain head state **while** deciding the next button press, not in a separate explorer tab.
+
+**Who benefits:** Operator; reduces trades submitted against stale fee or price assumptions.
+
+### WebSocket log stream
+
+**What:** Backend broadcasts structured events (logs, blocks, prices, balances, swap status) to the browser over WebSocket.
+
+**Why:** Terminal-only logging is useless when the UI is the control surface; the operator needs a live trail next to the buttons.
+
+**Who benefits:** Operator debugging failed swaps or slow confirmations without SSH tailing.
+
+### MEV builder path (BeaverBuild + Titan)
+
+**What:** Persistent HTTP keep-alive to multiple builders, bundle submission across future block slots, keepalive health pings, optional auto-reblast if a tx drops from mempool, summary stats on a configurable interval.
+
+**Why:** Public mempool submission alone is often too slow or too exposed for size ladders the operator runs routinely.
+
+**Who benefits:** Operator chasing reliable inclusion; reviewer evaluating operational sophistication (not consumer DeFi UX).
+
+### Fund transfer utilities
+
+**What:** Send USDC or ETH to preset exchange withdrawal addresses (e.g. MEXC, Gate.io) or a custom recipient, with gas limits tuned per asset.
+
+**Why:** Trading workflow does not end at the swap — proceeds often must move to CEX accounts quickly.
+
+**Who benefits:** Operator consolidating funds after on-chain legs.
+
+### Safety and recovery tooling (experimental)
+
+**What:** Separate UI section: cancel current swap, cancel all pending, nonce inspection, stuck-tx scan (wide block window), transaction status monitoring. Cancel paths use elevated gas multipliers on self-transfers.
+
+**Why:** Nonce gaps and stuck pending txs are operational incidents, not edge cases, during heavy use.
+
+**Who benefits:** Operator recovering from bad chain state; **not** casual users — utilities are marked experimental and need hardening.
+
+**Status:** Experimental — contact before relying on these in unattended automation.
+
+### Attacker-aware block monitoring
+
+**What:** Background block monitor watches for configured hostile addresses and can trigger defensive cancel flows.
+
+**Why:** Known counterparties or bots can front-run or pollute nonce ordering; operator wanted automatic guardrails tied to local node WebSocket.
+
+**Who benefits:** Operator under adversarial mempool conditions (advanced / environment-specific).
+
+### Configuration surface
+
+**What:** `dnx_swap_gas_config.json` for gas ranges, `ui_config.json` for UI presets, `.env` for keys and RPC endpoints (private repo only).
+
+**Why:** Gas tables and button ladders change faster than Python deploy cycles; secrets must never live in the public overview repo.
+
+**Who benefits:** Operator tuning presets without code edits; deployer aligning SOL `.env` with production RPC and builder URLs.
 
 ---
 
-**Professional DNX Swap Bot & Arbitrage Engine for Dynex. Standalone desktop solution. Interested parties and cooperation: https://logicencoder.com/contact**
+## REST / API shape (conceptual)
+
+Private app exposes JSON endpoints for balances, swap execution, sends, gas estimates, nonce status, stuck checks, and cancel actions, plus a WebSocket channel for live operator logs. Exact routes and payloads are documented in the private repo `ARCHITECTURE.md`.
+
+---
+
+## Adapting to other tokens or pairs
+
+**What:** Same architecture can target other ERC-20 pairs by swapping token metadata, pool routing, preset ladders, and gas range tables.
+
+**Why:** The product is a **pattern** (preset UI + config gas + async executor + log stream), not a single immutable DNX binary.
+
+**Who benefits:** Collaborators building similar operator tools on other assets.
+
+---
+
+## What this overview does not include
+
+- Private keys, RPC URLs, builder API secrets, or `.env` templates  
+- Full Python source, protobuf schemas, or deployment scripts on SOL  
+- Guarantees that experimental cancel / stuck-tx tools are production-complete  
+
+Request sanitized demos or cooperation via contact below.
+
+---
+
+## Development priorities (honest)
+
+- Finish hardening experimental transaction utilities  
+- Stronger error recovery and operator-facing failure messages  
+- Deployment monitoring story beyond single-operator runtime  
+
+---
+
+## Related repositories
+
+| Repo | Visibility |
+|------|------------|
+| [dnx-swap-webapp](https://github.com/logicencoder/dnx-swap-webapp) | Private — implementation |
+| [logicencoder-portfolio](https://github.com/logicencoder/logicencoder-portfolio) | Public — project index |
+| [eth-chain-swaps-monitor-overview](https://github.com/logicencoder/eth-chain-swaps-monitor-overview) | Public — Ethereum swap monitoring (separate product) |
+
+---
+
+## Collaboration
+
+**Website:** [logicencoder.com](https://logicencoder.com/)  
+**Applications:** [logicencoder.com/applications/](https://logicencoder.com/applications/)  
+**Contact:** [logicencoder.com/contact/](https://logicencoder.com/contact/)
+
+Areas: high-performance Python backends, realtime WebSocket systems, on-chain execution tooling, **Dynex / DNX** ecosystem work.
+
+---
+
+**Made by [logicencoder](https://github.com/logicencoder)**
