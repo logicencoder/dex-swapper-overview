@@ -176,7 +176,7 @@ See [REPOS.md](REPOS.md) for repository links.
 
 ---
 
-## Feature examples (two per capability)
+## Operator workflows
 
 #### Sell DNX → USDC (Config Gas)
 1. You click **Config Gas “4K”** — sells 4000 DNX using the matching tier from `dex_swapper_gas_config.json`.
