@@ -15,8 +15,6 @@ A focused swap can become a sequence of wallet dialogs, quote checks and separat
 
 The header shows the relevant chain and wallet context while buy and sell controls remain within the same workspace. Live quotes help the operator inspect the proposed conversion before choosing an action. The desk is focused on the configured market rather than a general token directory.
 
-![DEX Swapper — Keep the trading context visible](assets/dex-swapper-settings.png)
-
 ## Use presets for repeated work
 
 Preset amounts reduce repetitive typing when comparing or carrying out familiar trade sizes. Directional buy and sell areas keep the intended action clear. Quote information and transaction preferences remain available for a deliberate final decision.
@@ -32,6 +30,8 @@ Live logs and utility controls help inspect what happened after submission. Gas 
 ## Configure the operating desk
 
 Settings cover connection preferences, gas defaults and the supported display or execution choices. The separate automatic variant should be presented deliberately if offered as another product. The current images are narrow; readable desktop originals would communicate the workspace more effectively.
+
+![DEX Swapper settings](assets/dex-swapper-settings.png)
 
 ---
 
