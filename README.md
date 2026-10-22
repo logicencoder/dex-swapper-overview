@@ -29,7 +29,7 @@ Live logs and utility controls help inspect what happened after submission. Gas 
 
 ## Configure the operating desk
 
-Settings cover connection preferences, gas defaults and the supported display or execution choices. The separate automatic variant should be presented deliberately if offered as another product. The current images are narrow; readable desktop originals would communicate the workspace more effectively.
+Settings cover connection preferences, gas defaults and the supported display or execution choices.
 
 ![DEX Swapper settings](assets/dex-swapper-settings.png)
 
