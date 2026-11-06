@@ -19,25 +19,25 @@ The trading desk keeps the selected market, wallet and proposed conversion in vi
 
 ## Use presets for repeated work
 
-Preset amounts reduce repetitive typing when comparing or carrying out familiar trade sizes. Directional buy and sell areas keep the intended action clear. Quote information and transaction preferences remain available for a deliberate final decision.
+Swap buttons carry preset sizes from 10,000 to 25,000 DNX in two rows: one swaps with the gas settings from the configuration, the other with a custom gas value typed beside it. A quote request shows the proposed conversion before anything is submitted, and the slippage limit and quote refresh interval are set in Settings.
 
 Presets provide a convenient starting point for familiar amounts while leaving the proposed action visible for review. They reduce repeated entry without replacing the final amount and direction decision.
 
 ## Manage transfers and contacts
 
-Token and native-asset send controls cover related wallet tasks, while an address book helps reuse intended recipients. Keeping these tools beside swap operations reduces the need to open another utility for routine follow-up. Destinations and amounts remain decisions for the operator.
+USDC and ETH can be sent from the same screen, either with a preset amount (100 up to 1,000, or ALL) using the configured gas or a custom value. The address book stores named recipients (for example an exchange deposit address) that can be added, removed and chosen from a list.
 
 The address book is useful when the same recipients return in normal wallet work. Review the selected recipient alongside the amount before using the send controls.
 
 ## Follow and recover transactions
 
-Live logs and utility controls help inspect what happened after submission. Gas and transaction-management options support cases that need more attention, including cancellation-related work. Protective routing choices are available for supported execution paths without promising immunity from trading risk.
+A live log streams over a WebSocket. Stuck-transaction tools check pending nonces over a chosen number of blocks or for specific nonce numbers, cancel one nonce or all pending transactions with a replacement at higher gas, and a **Cancel current swap** button stops a swap in flight. Swaps are submitted through MEV builders, which reduces exposure to public-mempool front-running without removing it.
 
 A submitted action may need follow-up rather than another submission. Transaction information and logs provide a place to inspect that situation before using the available recovery controls.
 
 ## Configure the operating desk
 
-Settings cover connection preferences, gas defaults and the supported display or execution choices.
+Settings hold separate gas values for swaps, sends and cancellations with an extra priority fee, the slippage limit, the quote refresh interval, a reload of the configuration file and an optional watcher that flags blocks involving a known attacker address. **Node Settings** show the current Ethereum node, switch to another node and test or health-check it.
 
 Connection and gas preferences form part of the operator's working environment. Keeping them in a dedicated area makes it easier to revisit the setup without crowding the main trading task.
 
