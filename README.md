@@ -1,6 +1,6 @@
 # DEX Swapper
 
-![DEX Swapper workspace](assets/DNX-Trading-06-16-2026_06_55_PM.png)
+![DEX Swapper workspace](assets/dex-swapper-dnx-trading-console-swap-panel.png)
 
 A focused swap can become a sequence of wallet dialogs, quote checks and separate transaction tools. DEX Swapper brings the supported DNX and USDC workflow into an operator desk with quotes, trade presets and transaction follow-up close together.
 
